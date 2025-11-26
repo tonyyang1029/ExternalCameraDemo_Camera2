@@ -171,8 +171,6 @@ public class MainActivity extends AppCompatActivity {
         int mPreviewHeight = 1080;
 
         int rotation = getWindowManager().getDefaultDisplay().getRotation();
-        Log.i(TAG,"configureTransform, rotation:"+rotation);
-
         Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, surfaceWidth, surfaceHeight);
         RectF bufferRect = new RectF(0, 0, mPreviewHeight, mPreviewWidth);
@@ -196,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             matrix.postRotate(90 * rotation, centerX, centerY);
         }
 
+        // Mirror the image from external camera.
         matrix.postScale(-1, 1, centerX, centerY);
 
         textureView.setTransform(matrix);
@@ -267,19 +266,19 @@ public class MainActivity extends AppCompatActivity {
         }
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
-            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
-            Size[] jpegSizes = null;
-            if (characteristics != null) {
-                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
-            }
+//            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+//            Size[] jpegSizes = null;
+//            if (characteristics != null) {
+//                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+//            }
             int width = 1920;
             int height = 1080;
-            if (jpegSizes != null && 0 < jpegSizes.length) {
-                width = jpegSizes[0].getWidth();
-                height = jpegSizes[0].getHeight();
-            }
-            width = 1920;
-            height = 1080;
+//            if (jpegSizes != null && 0 < jpegSizes.length) {
+//                width = jpegSizes[0].getWidth();
+//                height = jpegSizes[0].getHeight();
+//            }
+//            width = 1920;
+//            height = 1080;
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurfaces = new ArrayList<>(2);
             outputSurfaces.add(reader.getSurface());
